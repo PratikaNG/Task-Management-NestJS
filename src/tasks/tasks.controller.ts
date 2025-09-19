@@ -4,6 +4,7 @@ import { Task, TaskStatus } from './task.model';
 import { title } from 'process';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
+import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -45,11 +46,22 @@ export class TasksController {
   deleteTask(@Param('id') id:string):void{
     return this.tasksService.DeleteTask(id);
   }
+
   @Patch('/:id/status')
   updateTaskStatus(
     @Param('id') id:string,
-    @Body('status') status:TaskStatus)  
+    @Body() updateTaskStatusDto:UpdateTaskStatusDto)  
     :Task{
+      const {status} = updateTaskStatusDto;
     return this.tasksService.UpdateTaskStatus(id,status);
   }
+
+  // without dto
+  // @Patch('/:id/status')
+  // updateTaskStatus(
+  //   @Param('id') id:string,
+  //   @Body('status') status:TaskStatus)  
+  //   :Task{
+  //   return this.tasksService.UpdateTaskStatus(id,status);
+  // }
 }
